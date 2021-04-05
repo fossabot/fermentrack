@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django.urls import reverse
 
 import requests
 import logging
@@ -13,6 +14,104 @@ from app.models import BrewPiDevice
 from gravity.models import GravitySensor
 
 logger = logging.getLogger(__name__)
+
+
+# class AbstractPushTarget(models.Model):
+#     class Meta:
+#         abstract = True
+#
+#     class SensorSelectChoices(models.TextChoices):
+#         SENSOR_SELECT_ALL = 'all', 'All Active Sensors/Devices'
+#         SENSOR_SELECT_LIST = 'list', 'Specific Sensors/Devices'
+#         SENSOR_SELECT_NONE = 'none', 'Nothing of this type'
+#
+#     class StatusChoices(models.TextChoices):
+#         STATUS_ACTIVE = 'active', 'Active'
+#         STATUS_DISABLED = 'disabled', 'Disabled'
+#         STATUS_ERROR = 'error', 'Error'
+#
+#
+#     SENSOR_PUSH_HTTP = "http (post)"
+#     SENSOR_PUSH_TCP = "tcp"
+#
+#     SENSOR_PUSH_CHOICES = (
+#         (SENSOR_PUSH_HTTP, "HTTP/HTTPS"),
+#         (SENSOR_PUSH_TCP, "TCP (Telnet/Socket)"),
+#     )
+#
+#     DATA_FORMAT_GENERIC = 'generic'
+#     DATA_FORMAT_TILTBRIDGE = 'tiltbridge'
+#
+#     DATA_FORMAT_CHOICES = (
+#         (DATA_FORMAT_GENERIC, 'All Data (Generic)'),
+#         # (DATA_FORMAT_TILTBRIDGE, 'TiltBridge Device'),
+#     )
+#
+#     PUSH_FREQUENCY_CHOICES = (
+#         # (30-1,    '30 seconds'),
+#         (60 - 1, '1 minute'),
+#         (60 * 2 - 1, '2 minutes'),
+#         (60 * 5 - 1, '5 minutes'),
+#         (60 * 10 - 1, '10 minutes'),
+#         (60 * 15 - 1, '15 minutes'),
+#         (60 * 30 - 1, '30 minutes'),
+#         (60 * 60 - 1, '1 hour'),
+#     )
+#
+#     status = models.CharField(max_length=24, help_text="Status of this push target", choices=StatusChoices.choices,
+#                               default=StatusChoices.STATUS_ACTIVE)
+#     push_frequency = models.IntegerField(choices=PUSH_FREQUENCY_CHOICES, default=60 * 15,
+#                                          help_text="How often to push data to the target")
+#     api_key = models.CharField(max_length=256, help_text="API key required by the push target (if any)", default="",
+#                                blank=True)
+#
+#     brewpi_push_selection = models.CharField(max_length=12, choices=SensorSelectChoices.choices,
+#                                              default=SensorSelectChoices.SENSOR_SELECT_ALL,
+#                                              help_text="How the BrewPi devices to push are selected")
+#     brewpi_to_push = models.ManyToManyField(to=BrewPiDevice, related_name="push_targets", blank=True, default=None,
+#                                             help_text="BrewPi Devices to push (ignored if 'all' devices selected)")
+#
+#     gravity_push_selection = models.CharField(max_length=12, choices=SensorSelectChoices.choices,
+#                                               default=SensorSelectChoices.SENSOR_SELECT_ALL,
+#                                               help_text="How the gravity sensors to push are selected")
+#     gravity_sensors_to_push = models.ManyToManyField(to=GravitySensor, related_name="push_targets", blank=True,
+#                                                      default=None,
+#                                                      help_text="Gravity Sensors to push (ignored if 'all' "
+#                                                                "sensors selected)")
+#
+#     target_type = models.CharField(max_length=24, default=SENSOR_PUSH_HTTP, choices=SENSOR_PUSH_CHOICES,
+#                                    help_text="Protocol to use to connect to the push target")
+#     # TODO - Change default to "", and change the URL to be a placeholder on the form
+#     target_host = models.CharField(max_length=256, default="http://127.0.0.1/", blank=True,
+#                                    help_text="The URL to push to (for HTTP/HTTPS) or hostname/IP address (for TCP)")
+#     target_port = models.IntegerField(default=80, validators=[MinValueValidator(10, "Port must be 10 or higher"),
+#                                                               MaxValueValidator(65535,
+#                                                                                 "Port must be 65535 or lower")],
+#                                       help_text="The port to use (not used for HTTP/HTTPS)")
+#
+#     data_format = models.CharField(max_length=24, help_text="The data format to send to the push target",
+#                                    choices=DATA_FORMAT_CHOICES, default=DATA_FORMAT_GENERIC)
+#
+#     error_text = models.TextField(blank=True, null=True, default="",
+#                                   help_text="The error (if any) encountered on the "
+#                                             "last push attempt")
+#
+#     last_triggered = models.DateTimeField(help_text="The last time we pushed data to this target",
+#                                           default=timezone.now)
+#
+#     # I'm on the fence as to whether or not to test when to trigger by selecting everything from the database and doing
+#     # (last_triggered + push_frequency) < now, or to actually create a "trigger_next_at" field.
+#     # trigger_next_at = models.DateTimeField(default=timezone.now, help_text="When to next trigger a push")
+#
+#     def data_to_push(self):
+#         raise NotImplementedError
+#
+#
+#     def send_data(self) -> bool:
+#         raise NotImplementedError
+#
+#     def check_target_host(self) -> bool:
+#         raise NotImplementedError
 
 
 class GenericPushTarget(models.Model):
@@ -106,6 +205,13 @@ class GenericPushTarget(models.Model):
     # I'm on the fence as to whether or not to test when to trigger by selecting everything from the database and doing
     # (last_triggered + push_frequency) < now, or to actually create a "trigger_next_at" field.
     # trigger_next_at = models.DateTimeField(default=timezone.now, help_text="When to next trigger a push")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self) -> str:
+        """Return absolute URL to the Tap Detail page."""
+        return reverse('push:external_push_view', kwargs={"pk": self.pk})
 
     def data_to_push(self):
         if self.brewpi_push_selection == GenericPushTarget.SENSOR_SELECT_ALL:

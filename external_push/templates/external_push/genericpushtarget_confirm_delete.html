@@ -1,0 +1,21 @@
+{% extends "sitewide/flat_ui_template.html" %}
+{% load custom_tags %}
+
+
+{% block title %}Delete {{ object }}{% endblock %}
+
+
+{% block content %}
+<h1 class="page-header">{{ object }}</h1>
+
+<form action="." class="form-horizontal" method="post">
+    {% csrf_token %}
+
+    <h3 class="text-danger">Are you sure you want to delete "{{ object }}"?</h3>
+
+    <input type="submit" class="btn btn-sm btn-danger" value="Confirm">
+</form>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
+

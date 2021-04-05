@@ -6,10 +6,11 @@ app_name = "external_push"
 
 urlpatterns = [
     ## External Push Views
-    path(route='', view=views.external_push_list, name='external_push_list'),
-    path(route='add/', view=views.external_push_generic_target_add, name='external_push_generic_target_add'),
-    path(route='view/<int:push_target_id>/', view=views.external_push_view, name='external_push_view'),
-    path(route='delete/<int:push_target_id>/', view=views.external_push_delete, name='external_push_delete'),
+    path(route='', view=views.ExternalPushListView.as_view(), name='external_push_list'),
+    path(route='add/', view=views.GenericPushTargetCreateView.as_view(), name='external_push_generic_target_add'),
+    path(route='view/<int:pk>/', view=views.GenericPushTargetDetailView.as_view(), name='external_push_view'),
+    path(route='update/<int:pk>/', view=views.GenericPushTargetUpdateView.as_view(), name='genericpushtarget_update'),
+    path(route='delete/<int:pk>/', view=views.GenericPushTargetDeleteView.as_view(), name='genericpushtarget_delete'),
 
     path(route='brewersfriend/add/', view=views.external_push_brewers_friend_target_add, name='external_push_brewers_friend_target_add'),
     path(route='brewersfriend/view/<int:push_target_id>/', view=views.external_push_brewers_friend_view, name='external_push_brewers_friend_view'),

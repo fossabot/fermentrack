@@ -2,16 +2,16 @@
 {% load custom_tags %}
 
 
-{% block title %}Add Push Target{% endblock %}
+{% block title %}{{ view.action|default:"Add" }} Push Target{% endblock %}
 
 {% block content %}
 
-<h1 class="page-header">Add Push Target</h1>
+<h1 class="page-header">{{ view.action|default:"Add" }} Push Target</h1>
 {% if form.errors %}
    <div class="text-danger">Please correct the error {{ form.errors }} below.</div>
 {% endif %}
 <p>
-    <form action="{% url "push:external_push_generic_target_add" %}" class="form-horizontal" method="post">
+    <form action="." class="form-horizontal" method="post">
         {% csrf_token %}
 
         <div id="pushTargetSection">
@@ -37,7 +37,7 @@
 
         </div>
 
-        <input type="submit" value="Add Push Target" class="btn btn-primary" />
+        <input type="submit" value="{{ view.action|default:"Add" }} Push Target" class="btn btn-primary" />
     </form>
 </p>
 

@@ -22,7 +22,8 @@ import fermentrack_django.settings as settings
 
 
 from app.models import BrewPiDevice, OldControlConstants, NewControlConstants, PinDevice, SensorDevice, BeerLogPoint, Beer
-from external_push.views import external_push_list
+from external_push.models import GenericPushTarget, BrewersFriendPushTarget, BrewfatherPushTarget, GrainfatherPushTarget, ThingSpeakPushTarget
+
 from django.contrib.auth.models import User
 
 
@@ -647,8 +648,15 @@ def site_settings(request):
     else:
         form = setup_forms.GuidedSetupConfigForm()
 
-    context = {'form': form, 'completed_config': config.USER_HAS_COMPLETED_CONFIGURATION}
-    context.update(external_push_list(request, context_only=True))  # Add in the "external push" object list
+    context = {
+        'form': form,
+        'completed_config': config.USER_HAS_COMPLETED_CONFIGURATION,
+        'all_push_targets': GenericPushTarget.objects.all(),
+        'brewers_friend_push_targets': BrewersFriendPushTarget.objects.all(),
+        'brewfather_push_targets': BrewfatherPushTarget.objects.all(),
+        'thingspeak_push_targets': ThingSpeakPushTarget.objects.all(),
+        'grainfather_push_targets': GrainfatherPushTarget.objects.all(),
+    }
 
     return render(request, template_name='site_config.html', context=context)
 

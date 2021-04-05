@@ -1,0 +1,51 @@
+{% extends "sitewide/flat_ui_template.html" %}
+{% load custom_tags %}
+
+
+{% block title %}Push Target {{ genericpushtarget }}{% endblock %}
+
+{% block content %}
+
+<h1 class="page-header">{{ genericpushtarget }}</h1>
+
+<div id="pushTargetSection">
+    <h3 class="form-header">Push Target Settings</h3>
+    <p>Name: {{ genericpushtarget.name }}</p>
+    <p>Push Frequency: {{ genericpushtarget.push_frequency }}</p>
+    <p>Api Key: {{ genericpushtarget.api_key }}</p>
+
+    {# TODO - Add carveout to hide BrewPi selections if BrewPi support is disabled #}
+    <p>BrewPi Push Selection: {{ genericpushtarget.brewpi_push_selection }}</p>
+    {% if genericpushtarget.brewpi_push_selection == 'list' %}
+        {# Hidden if anything other than 'list' is selected above #}
+        <div id="brewPiPushChoices">
+            {{ genericpushtarget.brewpi_to_push }}
+        </div>
+    {% endif %}
+
+
+    {# TODO - Add carveout to hide gravity selections if gravity support is disabled #}
+    <p>Gravity Push Selection: {{ genericpushtarget.gravity_push_selection }}</p>
+    {% if genericpushtarget.gravity_push_selection == 'list' %}
+        {# Hidden if anything other than 'list' is selected above #}
+        <div id="gravityPushChoices">
+            {{ genericpushtarget.gravity_sensors_to_push }}
+        </div>
+    {% endif %}
+
+        {#            {{ genericpushtarget.target_type }}#}
+    <p>Target Host: {{ genericpushtarget.target_host }}</p>
+{#            {{ genericpushtarget.target_port }}#}
+</div>
+
+<p>
+    <a href="{% url 'push:genericpushtarget_update' genericpushtarget.id %}" class="btn btn-large btn-lg btn-primary">Update Push Target</a>
+    <a href="{% url 'push:genericpushtarget_delete' genericpushtarget.id %}" class="btn btn-large btn-lg btn-danger">Delete Push Target</a>
+</p>
+
+
+{% endblock %}
+
+
+{% block scripts %}{% endblock %}
+
