@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.contrib import admin
+from django.urls import include, path
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -122,8 +123,9 @@ urlpatterns = [
     # Site-specific views (Help, Settings, etc.)
     url(r'site/settings/$', app.views.site_settings, name="site_settings"),
     url(r'site/help/$', app.views.site_help, name="site_help"),
+    path("push/", include("external_push.urls", namespace="push")),
 
 ] + static(settings.DATA_URL, document_root=settings.DATA_ROOT) + \
-              firmware_flash.urls.firmware_flash_urlpatterns + gravity.urls.gravity_urlpatterns + \
-              external_push.urls.external_push_urlpatterns
+              firmware_flash.urls.firmware_flash_urlpatterns + gravity.urls.gravity_urlpatterns
+
 # TODO - Convert the above to be properly namespaced

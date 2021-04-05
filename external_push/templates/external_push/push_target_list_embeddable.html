@@ -13,7 +13,7 @@
             <!-- GenericPushTarget Line -->
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6"><a href="{% url "external_push_view" push_target.id %}">{{ push_target.name }}</a></div>
+                    <div class="col-sm-12 col-md-6"><a href="{% url "push:external_push_view" push_target.id %}">{{ push_target.name }}</a></div>
                     <div class="col-sm-2 col-md-2">{{ push_target.status }}</div>  {#  TODO - Make this display an error if applicable #}
                     <div class="col-sm-10 col-md-4">{{ push_target.target_host }}</div>
                 </div>
@@ -31,7 +31,7 @@
             <!-- BrewersFriendPushTarget Line -->
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6"><a href="{% url "external_push_brewers_friend_view" push_target.id %}">{{ push_target }}</a></div>
+                    <div class="col-sm-12 col-md-6"><a href="{% url "push:external_push_brewers_friend_view" push_target.id %}">{{ push_target }}</a></div>
                     <div class="col-sm-2 col-md-2">{{ push_target.status }}</div> {#  TODO - Make this display an error if applicable #}
                 </div>
             </li>
@@ -48,7 +48,7 @@
             <!-- BrewfatherPushTarget Line -->
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6"><a href="{% url "external_push_brewfather_view" push_target.id %}">{{ push_target }}</a></div>
+                    <div class="col-sm-12 col-md-6"><a href="{% url "push:external_push_brewfather_view" push_target.id %}">{{ push_target }}</a></div>
                     <div class="col-sm-2 col-md-2">{{ push_target.status }}</div> {#  TODO - Make this display an error if applicable #}
                 </div>
             </li>
@@ -65,7 +65,7 @@
             <!-- ThingSpeakPushTarget Line -->
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6"><a href="{% url "external_push_thingspeak_view" push_target.id %}">{{ push_target.name }}</a></div>
+                    <div class="col-sm-12 col-md-6"><a href="{% url "push:external_push_thingspeak_view" push_target.id %}">{{ push_target.name }}</a></div>
                     <div class="col-sm-2 col-md-2">{{ push_target.status }}</div>  {#  TODO - Make this display an error if applicable #}
                     <div class="col-sm-10 col-md-4">{{ push_target.target_host }}</div>
                 </div>
@@ -83,7 +83,7 @@
             <!-- GrainfatherPushTarget Line -->
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6"><a href="{% url "external_push_grainfather_view" push_target.id %}">{{ push_target }}</a></div>
+                    <div class="col-sm-12 col-md-6"><a href="{% url "push:external_push_grainfather_view" push_target.id %}">{{ push_target }}</a></div>
                     <div class="col-sm-2 col-md-2">{{ push_target.status }}</div> {#  TODO - Make this display an error if applicable #}
                 </div>
             </li>
@@ -93,9 +93,9 @@
     {% endif %}
 
     <p>
-    <a href="{% url 'external_push_generic_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Generic Push Target</a>
-    <a href="{% url 'external_push_brewers_friend_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Brewer's Friend Push Target</a>
-    <a href="{% url 'external_push_brewfather_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Brewfather Push Target</a>
-    <a href="{% url 'external_push_thingspeak_target_add' %}" class="btn btn-large btn-lg btn-primary">Add ThingSpeak Push Target</a>
-    <a href="{% url 'external_push_grainfather_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Grainfather Push Target</a>
+    <a href="{% url 'push:external_push_generic_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Generic Push Target</a>
+    <a href="{% url 'push:external_push_brewers_friend_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Brewer's Friend Push Target</a>
+    <a href="{% url 'push:external_push_brewfather_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Brewfather Push Target</a>
+    <a href="{% url 'push:external_push_thingspeak_target_add' %}" class="btn btn-large btn-lg btn-primary">Add ThingSpeak Push Target</a>
+    <a href="{% url 'push:external_push_grainfather_target_add' %}" class="btn btn-large btn-lg btn-primary">Add Grainfather Push Target</a>
     </p>

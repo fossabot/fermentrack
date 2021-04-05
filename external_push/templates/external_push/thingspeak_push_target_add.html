@@ -25,7 +25,7 @@
         </ul>
     </p>
 <p>
-    <form action="{% url "external_push_thingspeak_target_add" %}" class="form-horizontal" method="post">
+    <form action="{% url "push:external_push_thingspeak_target_add" %}" class="form-horizontal" method="post">
         {% csrf_token %}
 
         <div id="pushTargetSection">

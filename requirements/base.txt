@@ -34,3 +34,18 @@ aioblescan==0.2.6      # Replacement for beacontools for Tilt support
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 whitenoise==5.2.0  # https://github.com/evansd/whitenoise
 cryptography==3.4.6  # For the latest versions of esptool
+
+
+# Testing
+# ------------------------------------------------------------------------------
+mypy==0.790  # https://github.com/python/mypy
+#django-stubs==1.7.0  # https://github.com/typeddjango/django-stubs
+pytest==6.2.1  # https://github.com/pytest-dev/pytest
+pytest-sugar==0.9.4  # https://github.com/Frozenball/pytest-sugar
+pytest-mock==3.3.1  # https://github.com/pytest-dev/pytest-mock/
+coverage==5.3.1  # https://github.com/nedbat/coveragepy
+factory-boy==3.1.0  # https://github.com/FactoryBoy/factory_boy
+django-coverage-plugin==1.8.0  # https://github.com/nedbat/django_coverage_plugin
+pytest-django==4.1.0  # https://github.com/pytest-dev/pytest-django
+pylint-django==2.4.1  # https://github.com/PyCQA/pylint-django
+
