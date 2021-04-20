@@ -6,7 +6,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) because it was the first relatively standard format to pop up when I googled "changelog formats".
 
 
-[Unreleased] - Docker Support
+[Unreleased] - Bugfixes
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Fixed
+-----
+
+- Properly allow blanks for BrewPiDevice.wifi_host_ip
+
+
+
+
+[2021-04-05] - Docker Support
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Added
@@ -33,6 +44,7 @@ Changed
 - Added Beer Setting, Fridge Setting, and Controller State to generic external push targets
 - Upgraded TiltBridge support for v1.0.0 TiltBridges (earlier TiltBridge versions will now require manual configuration)
 - External push target attempts now log to huey stdout
+- Added battery to the GenericPushTarget message for pushed iSpindel devices
 
 
 Fixed
@@ -42,6 +54,7 @@ Fixed
 - Resolved issue causing false failures of the connectivity test (Thanks postalbunny!)
 - Fixed issue preventing renaming of BrewPi controllers
 - Dashes now allowed in TiltBridge mDNS IDs
+- Corrected issue where iSpindel data couldn't be loaded if a data point wasn't availble in Redis
 
 
 
